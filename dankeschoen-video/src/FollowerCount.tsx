@@ -1,4 +1,5 @@
 import React from "react";
+import { Background } from "./Background";
 import {
   AbsoluteFill,
   interpolate,
@@ -11,7 +12,6 @@ import {
 export const COUNT_FPS = 30;
 export const COUNT_TOTAL = 240; // 8 Sekunden
 
-const BG = "#0b0b0d";
 const FG = "#ffffff";
 const ACCENT = "#f5c451";
 const FONT = "Inter, 'Helvetica Neue', Arial, sans-serif";
@@ -160,8 +160,6 @@ export const FollowerCount: React.FC = () => {
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: BG,
-        backgroundImage: `radial-gradient(circle at 50% ${(CY / 1920) * 100}%, rgba(245,196,81,${glow}), transparent 55%)`,
         fontFamily: FONT,
         justifyContent: "center",
         alignItems: "center",
@@ -170,6 +168,12 @@ export const FollowerCount: React.FC = () => {
         opacity: fadeOut,
       }}
     >
+      <Background />
+      <AbsoluteFill
+        style={{
+          backgroundImage: `radial-gradient(circle at 50% ${(CY / 1920) * 100}%, rgba(245,196,81,${glow}), transparent 55%)`,
+        }}
+      />
       <Orbit />
       <div
         style={{
