@@ -82,30 +82,31 @@ const Orbit: React.FC = () => {
         const fade = Math.min(1, t * 8) * Math.min(1, (1 - t) * 10);
         const color = p.gold ? ACCENT : FG;
         const head = position(p, t);
+        const trail = position(p, Math.max(0, t - 0.03));
+        // Zahl wächst leicht, je näher sie dem Zentrum kommt
+        const fs = p.size * 2.4 * (0.8 + 0.5 * t);
         return (
-          <g key={i}>
-            {[1, 2, 3, 4, 5].map((k) => {
-              const tt = t - k * 0.018;
-              if (tt <= 0) return null;
-              const q = position(p, tt);
-              return (
-                <circle
-                  key={k}
-                  cx={q.x}
-                  cy={q.y}
-                  r={p.size * (1 - k * 0.14) * 0.5}
-                  fill={color}
-                  opacity={fade * (0.45 - k * 0.07)}
-                />
-              );
-            })}
-            <circle
-              cx={head.x}
-              cy={head.y}
-              r={p.size * 0.5}
+          <g key={i} fontFamily={FONT} fontWeight={800} textAnchor="middle">
+            <text
+              x={trail.x}
+              y={trail.y}
+              fontSize={fs}
               fill={color}
-              opacity={fade}
-            />
+              opacity={fade * 0.25}
+              dominantBaseline="central"
+            >
+              {i + 1}
+            </text>
+            <text
+              x={head.x}
+              y={head.y}
+              fontSize={fs}
+              fill={color}
+              opacity={fade * 0.9}
+              dominantBaseline="central"
+            >
+              {i + 1}
+            </text>
           </g>
         );
       })}
