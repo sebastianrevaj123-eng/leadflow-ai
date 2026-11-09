@@ -8,7 +8,7 @@ import {
 } from "remotion";
 
 export const COUNT_FPS = 30;
-export const COUNT_TOTAL = 150; // 5 Sekunden
+export const COUNT_TOTAL = 240; // 8 Sekunden
 
 const BG = "#0b0b0d";
 const FG = "#ffffff";
@@ -43,6 +43,21 @@ export const FollowerCount: React.FC = () => {
     config: { damping: 200 },
     durationInFrames: 20,
   });
+  const lift = spring({
+    frame: frame - 105,
+    fps,
+    config: { damping: 200 },
+    durationInFrames: 25,
+  });
+  const textP = (delay: number) =>
+    spring({
+      frame: frame - delay,
+      fps,
+      config: { damping: 200 },
+      durationInFrames: 20,
+    });
+  const t1 = textP(125);
+  const t2 = textP(155);
   const fadeOut = interpolate(frame, [COUNT_TOTAL - 10, COUNT_TOTAL], [1, 0], {
     extrapolateLeft: "clamp",
   });
@@ -66,28 +81,76 @@ export const FollowerCount: React.FC = () => {
     >
       <div
         style={{
-          fontSize: 460,
-          fontWeight: 900,
-          lineHeight: 1,
-          letterSpacing: -14,
-          color: done ? ACCENT : FG,
-          transform: `scale(${scale})`,
-          fontVariantNumeric: "tabular-nums",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          transform: `translateY(${interpolate(lift, [0, 1], [0, -170])}px)`,
         }}
       >
-        {count}
+        <div
+          style={{
+            fontSize: 460,
+            fontWeight: 900,
+            lineHeight: 1,
+            letterSpacing: -14,
+            color: done ? ACCENT : FG,
+            transform: `scale(${scale})`,
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          {count}
+        </div>
+        <div
+          style={{
+            fontSize: 110,
+            fontWeight: 800,
+            color: FG,
+            letterSpacing: -2,
+            opacity: labelP,
+            transform: `translateY(${interpolate(labelP, [0, 1], [40, 0])}px)`,
+          }}
+        >
+          Follower
+        </div>
       </div>
       <div
         style={{
-          fontSize: 110,
-          fontWeight: 800,
-          color: FG,
-          letterSpacing: -2,
-          opacity: labelP,
-          transform: `translateY(${interpolate(labelP, [0, 1], [40, 0])}px)`,
+          position: "absolute",
+          top: 1130,
+          width: "100%",
+          padding: "0 90px",
+          textAlign: "center",
+          boxSizing: "border-box",
         }}
       >
-        Follower
+        <div
+          style={{
+            fontSize: 58,
+            fontWeight: 700,
+            whiteSpace: "nowrap",
+            color: FG,
+            lineHeight: 1.2,
+            opacity: t1,
+            transform: `translateY(${interpolate(t1, [0, 1], [40, 0])}px)`,
+          }}
+        >
+          Danke für die 150 Follower.
+        </div>
+        <div
+          style={{
+            marginTop: 40,
+            fontSize: 68,
+            fontWeight: 800,
+            color: ACCENT,
+            lineHeight: 1.2,
+            opacity: t2,
+            transform: `translateY(${interpolate(t2, [0, 1], [40, 0])}px)`,
+          }}
+        >
+          Danke euch
+          <br />
+          von ganzem Herzen.&nbsp;❤️
+        </div>
       </div>
     </AbsoluteFill>
   );
